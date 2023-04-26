@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -6,22 +6,28 @@ function App() {
   const [items, setItems] = useState([]);
 
 
+  useEffect(()=>{
+    const itemsArray = JSON.parse(localStorage.getItem('arrayItem'))
+    setItems(itemsArray)
+  },[])
 
   function addItem() {
     if (!newItem) {
       alert("Press enter an item.");
       return;
     }
-
+    
     const item = {
       id: Math.floor(Math.random() * 1000),
       value: newItem,
     };
-
+    
     // Add new item to items array
     setItems((oldList) => [...oldList, item]);
-
+    
     // Reset newItem back to original state
+    localStorage.setItem('arrayItem',JSON.stringify(items))
+
     setNewItem("");
   }
 
